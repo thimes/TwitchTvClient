@@ -9,15 +9,15 @@ public class CardSet {
 
     private String code;
 
-    private Integer number;
+    private int number;
 
-    private Integer cyclenumber;
+    private int cyclenumber;
 
     private String available;
 
-    private Integer known;
+    private int known;
 
-    private Integer total;
+    private int total;
 
     private String url;
 
@@ -37,19 +37,19 @@ public class CardSet {
         this.code = code;
     }
 
-    public Integer getNumber() {
+    public int getNumber() {
         return number;
     }
 
-    public void setNumber(Integer number) {
+    public void setNumber(int number) {
         this.number = number;
     }
 
-    public Integer getCyclenumber() {
+    public int getCyclenumber() {
         return cyclenumber;
     }
 
-    public void setCyclenumber(Integer cyclenumber) {
+    public void setCyclenumber(int cyclenumber) {
         this.cyclenumber = cyclenumber;
     }
 
@@ -61,19 +61,19 @@ public class CardSet {
         this.available = available;
     }
 
-    public Integer getKnown() {
+    public int getKnown() {
         return known;
     }
 
-    public void setKnown(Integer known) {
+    public void setKnown(int known) {
         this.known = known;
     }
 
-    public Integer getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
