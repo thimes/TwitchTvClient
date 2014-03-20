@@ -5,14 +5,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 
-import com.wdonahue.twitchtvclient.adapters.JustinTvStreamAdapter;
-import com.wdonahue.twitchtvclient.api.ApiClient;
-import com.wdonahue.twitchtvclient.model.JustinTvStreamData;
+import com.wdonahue.twitchtvclient.adapters.NetrunnerCardAdapter;
+import com.wdonahue.twitchtvclient.api.ApiClient2;
+import com.wdonahue.twitchtvclient.model.NetrunnerCard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,23 +21,15 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MainActivity extends Activity {
-    /**
-     * When this amount of items is left in the ListView yet to be displayed we will start downloading more data (if available).
-     */
-    private static final int RUNNING_LOW_ON_DATA_THRESHOLD = 10;
 
-    private static final int ITEMS_PER_PAGE = 50;
-
-    private JustinTvStreamAdapter mAdapter;
+    private NetrunnerCardAdapter mAdapter;
 
     private ProgressBar mProgressBar;
 
     private boolean mIsDownloadInProgress = false;
 
     private static class ActivityState {
-        private int nextPage = 0;
-
-        private List<JustinTvStreamData> streamData = new ArrayList<JustinTvStreamData>();
+        private List<NetrunnerCard> cardData = new ArrayList<NetrunnerCard>();
     }
 
     /* Holds the state information for this activity. */
@@ -57,16 +48,15 @@ public class MainActivity extends Activity {
 
         // Create the array adapter and bind it to the gridview
         GridView gridView = (GridView) findViewById(R.id.grid);
-        gridView.setOnScrollListener(mScrollListener);
-        mAdapter = new JustinTvStreamAdapter(this, 0, mState.streamData);
+        mAdapter = new NetrunnerCardAdapter(this, 0, mState.cardData);
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String title = mState.streamData.get(position).getChannel().getTitle();
+                String title = mState.cardData.get(position).getTitle();
 
-                Intent viewVideoIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitch.tv/" + title));
-                startActivity(viewVideoIntent);
+                Intent viewCardIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mState.cardData.get(position).getUrl()));
+                startActivity(viewCardIntent);
             }
         });
     }
@@ -75,9 +65,8 @@ public class MainActivity extends Activity {
     protected void onResume() {
         super.onResume();
 
-        // Kick off first download
-        if (mState.nextPage == 0) {
-            downloadData(mState.nextPage);
+        if (mState.cardData.isEmpty()) {
+            downloadData();
         }
     }
 
@@ -87,16 +76,16 @@ public class MainActivity extends Activity {
         return mState;
     }
 
-    private void downloadData(final int pageNumber) {
+    private void downloadData() {
         if (!mIsDownloadInProgress) {
             mIsDownloadInProgress = true;
 
             mProgressBar.setVisibility(View.VISIBLE);
 
-            ApiClient.getTwitchTvApiClient().getStreams(ITEMS_PER_PAGE, pageNumber * ITEMS_PER_PAGE, new Callback<List<JustinTvStreamData>>() {
+            ApiClient2.getNetrunnerDBApiClient().getCards(new Callback<List<NetrunnerCard>>() {
                 @Override
-                public void success(List<JustinTvStreamData> justinTvStreamData, Response response) {
-                    consumeApiData(justinTvStreamData);
+                public void success(List<NetrunnerCard> netrunnerCards, Response response) {
+                    consumeApiData(netrunnerCards);
                 }
 
                 @Override
@@ -107,39 +96,18 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void consumeApiData(List<JustinTvStreamData> justinTvStreamData) {
-        if (justinTvStreamData != null) {
+    private void consumeApiData(List<NetrunnerCard> netrunnerCards) {
+        if (netrunnerCards != null) {
             // Add the found streams to our array to render
-            mState.streamData.addAll(justinTvStreamData);
+            mState.cardData.addAll(netrunnerCards);
 
             // Tell the adapter that it needs to rerender
             mAdapter.notifyDataSetChanged();
 
             // Done loading; remove loading indicator
             mProgressBar.setVisibility(View.GONE);
-
-            // Keep track of what page to download next
-            mState.nextPage++;
         }
 
         mIsDownloadInProgress = false;
     }
-
-    /**
-     * Scroll-handler for the ListView which can auto-load the next page of data.
-     */
-    private AbsListView.OnScrollListener mScrollListener = new AbsListView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
-            // Nothing to do
-        }
-
-        @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-            // Detect if the ListView is running low on data
-            if (totalItemCount > 0 && totalItemCount - (visibleItemCount + firstVisibleItem) <= RUNNING_LOW_ON_DATA_THRESHOLD) {
-                downloadData(mState.nextPage);
-            }
-        }
-    };
 }
