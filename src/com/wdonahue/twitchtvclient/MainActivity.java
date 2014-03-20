@@ -10,7 +10,7 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 
 import com.wdonahue.twitchtvclient.adapters.NetrunnerCardAdapter;
-import com.wdonahue.twitchtvclient.api.ApiClient2;
+import com.wdonahue.twitchtvclient.api.ApiClient;
 import com.wdonahue.twitchtvclient.model.NetrunnerCard;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public class MainActivity extends Activity {
 
             mProgressBar.setVisibility(View.VISIBLE);
 
-            ApiClient2.getNetrunnerDBApiClient().getCards(new Callback<List<NetrunnerCard>>() {
+            ApiClient.getNetrunnerDBApiClient().getCards(new Callback<List<NetrunnerCard>>() {
                 @Override
                 public void success(List<NetrunnerCard> netrunnerCards, Response response) {
                     consumeApiData(netrunnerCards);

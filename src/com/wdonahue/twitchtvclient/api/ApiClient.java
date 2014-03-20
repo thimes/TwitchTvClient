@@ -1,31 +1,31 @@
 package com.wdonahue.twitchtvclient.api;
 
-import com.wdonahue.twitchtvclient.model.JustinTvStreamData;
+import com.wdonahue.twitchtvclient.model.NetrunnerCard;
 
 import java.util.List;
 
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.http.GET;
-import retrofit.http.Query;
 
 public class ApiClient {
-    private static TwitchTvApiInterface sTwitchTvService;
+    private static NetrunnerDbApiInterface sService;
 
-    public static TwitchTvApiInterface getTwitchTvApiClient() {
-        if (sTwitchTvService == null) {
+    public static NetrunnerDbApiInterface getNetrunnerDBApiClient() {
+        if (sService == null) {
             RestAdapter restAdapter = new RestAdapter.Builder()
-                    .setEndpoint("http://api.justin.tv/api")
+                    .setEndpoint("http://netrunnerdb.com/api")
+
                     .build();
 
-            sTwitchTvService = restAdapter.create(TwitchTvApiInterface.class);
+            sService = restAdapter.create(NetrunnerDbApiInterface.class);
         }
 
-        return sTwitchTvService;
+        return sService;
     }
 
-    public interface TwitchTvApiInterface {
-        @GET("/stream/list.json")
-        void getStreams(@Query("limit") int limit, @Query("offset") int offset, Callback<List<JustinTvStreamData>> callback);
+    public interface NetrunnerDbApiInterface {
+        @GET("/cards")
+        void getCards(Callback<List<NetrunnerCard>> callback);
     }
 }
