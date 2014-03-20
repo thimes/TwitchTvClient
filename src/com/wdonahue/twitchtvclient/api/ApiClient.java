@@ -1,6 +1,6 @@
 package com.wdonahue.twitchtvclient.api;
 
-import com.wdonahue.twitchtvclient.model.NetrunnerCard;
+import com.wdonahue.twitchtvclient.model.Card;
 
 import java.util.List;
 
@@ -26,6 +26,6 @@ public class ApiClient {
 
     public interface NetrunnerDbApiInterface {
         @GET("/cards")
-        void getCards(Callback<List<NetrunnerCard>> callback);
+        void getCards(Callback<List<Card>> callback);
     }
 }

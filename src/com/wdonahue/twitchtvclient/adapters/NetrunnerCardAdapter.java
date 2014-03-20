@@ -10,14 +10,14 @@ import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
 import com.wdonahue.twitchtvclient.R;
-import com.wdonahue.twitchtvclient.model.NetrunnerCard;
+import com.wdonahue.twitchtvclient.model.Card;
 
 import java.util.List;
 
-public class NetrunnerCardAdapter extends ArrayAdapter<NetrunnerCard> {
+public class NetrunnerCardAdapter extends ArrayAdapter<Card> {
     private LayoutInflater mInflater;
 
-    public NetrunnerCardAdapter(Context context, int textViewResourceId, List<NetrunnerCard> objects) {
+    public NetrunnerCardAdapter(Context context, int textViewResourceId, List<Card> objects) {
         super(context, textViewResourceId, objects);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -41,7 +41,7 @@ public class NetrunnerCardAdapter extends ArrayAdapter<NetrunnerCard> {
         }
 
         // Populate via the holder for speed
-        NetrunnerCard card = getItem(position);
+        Card card = getItem(position);
 
         // Populate the item contents
 

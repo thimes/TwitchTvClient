@@ -11,7 +11,7 @@ import android.widget.ProgressBar;
 
 import com.wdonahue.twitchtvclient.adapters.NetrunnerCardAdapter;
 import com.wdonahue.twitchtvclient.api.ApiClient;
-import com.wdonahue.twitchtvclient.model.NetrunnerCard;
+import com.wdonahue.twitchtvclient.model.Card;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class MainActivity extends Activity {
     private boolean mIsDownloadInProgress = false;
 
     private static class ActivityState {
-        private List<NetrunnerCard> cardData = new ArrayList<NetrunnerCard>();
+        private List<Card> cardData = new ArrayList<Card>();
     }
 
     /* Holds the state information for this activity. */
@@ -82,10 +82,10 @@ public class MainActivity extends Activity {
 
             mProgressBar.setVisibility(View.VISIBLE);
 
-            ApiClient.getNetrunnerDBApiClient().getCards(new Callback<List<NetrunnerCard>>() {
+            ApiClient.getNetrunnerDBApiClient().getCards(new Callback<List<Card>>() {
                 @Override
-                public void success(List<NetrunnerCard> netrunnerCards, Response response) {
-                    consumeApiData(netrunnerCards);
+                public void success(List<Card> cards, Response response) {
+                    consumeApiData(cards);
                 }
 
                 @Override
@@ -96,10 +96,10 @@ public class MainActivity extends Activity {
         }
     }
 
-    private void consumeApiData(List<NetrunnerCard> netrunnerCards) {
-        if (netrunnerCards != null) {
+    private void consumeApiData(List<Card> cards) {
+        if (cards != null) {
             // Add the found streams to our array to render
-            mState.cardData.addAll(netrunnerCards);
+            mState.cardData.addAll(cards);
 
             // Tell the adapter that it needs to rerender
             mAdapter.notifyDataSetChanged();
