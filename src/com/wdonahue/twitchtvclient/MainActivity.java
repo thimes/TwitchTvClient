@@ -9,6 +9,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wdonahue.twitchtvclient.adapters.JustinTvStreamAdapter;
 import com.wdonahue.twitchtvclient.api.ApiClient;
@@ -101,6 +102,7 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void failure(RetrofitError retrofitError) {
+                    Toast.makeText(MainActivity.this, "FAIL", Toast.LENGTH_LONG).show();
                     consumeApiData(null);
                 }
             });

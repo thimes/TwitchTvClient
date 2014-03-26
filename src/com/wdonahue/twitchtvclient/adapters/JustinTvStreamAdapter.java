@@ -50,7 +50,7 @@ public class JustinTvStreamAdapter extends ArrayAdapter<JustinTvStreamData> {
 
         // Populate the item contents
         holder.lblTitleText.setText(stream.getTitle());
-        holder.lblGame.setText(stream.getMeta_game());
+        holder.lblGame.setText(stream.getMeta_game().getDescription());
         holder.lblUser.setText(stream.getChannel().getLogin());
         int totalViewers = stream.getChannel_count().intValue();
         holder.lblViewers.setText(getContext().getResources().getQuantityString(R.plurals.viewers, totalViewers, totalViewers));

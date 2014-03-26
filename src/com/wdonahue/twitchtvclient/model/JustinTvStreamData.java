@@ -1,5 +1,7 @@
 package com.wdonahue.twitchtvclient.model;
 
+import java.util.Date;
+
 public class JustinTvStreamData {
 	private boolean abuse_reported;
 	private String audio_codec;
@@ -17,13 +19,13 @@ public class JustinTvStreamData {
 	private String geo;
 	private String id;
 	private String language;
-	private String meta_game;
+	private Game meta_game;
 	private String name;
 	private Number site_count;
 	private Number stream_count;
 	private String stream_type;
 	private String title;
-	private String up_time;
+	private Date up_time;
 	private Number video_bitrate;
 	private String video_codec;
 	private Number video_height;
@@ -157,11 +159,11 @@ public class JustinTvStreamData {
 		this.language = language;
 	}
 
-	public String getMeta_game() {
+	public Game getMeta_game() {
 		return this.meta_game;
 	}
 
-	public void setMeta_game(String meta_game) {
+	public void setMeta_game(Game meta_game) {
 		this.meta_game = meta_game;
 	}
 
@@ -205,11 +207,11 @@ public class JustinTvStreamData {
 		this.title = title;
 	}
 
-	public String getUp_time() {
+	public Date getUp_time() {
 		return this.up_time;
 	}
 
-	public void setUp_time(String up_time) {
+	public void setUp_time(Date up_time) {
 		this.up_time = up_time;
 	}
 
